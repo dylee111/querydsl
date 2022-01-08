@@ -725,4 +725,35 @@ public class QuerydslTest {
             System.out.println("member1 = " + member1);
         }
     }
+
+    /*
+     * SQL Function
+     * */
+    @Test
+    public void sqlFunctionReplace() {
+        List<String> result = queryFactory
+                .select(Expressions
+                        .stringTemplate("function('replace', {0}, {1}, {2})", member.username, "member", "M"))
+                .from(member)
+                .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
+
+    @Test
+    public void sqlFunctionLower() {
+        List<String> result = queryFactory
+                .select(member.username)
+                .from(member)
+//                .where(member.username.eq(Expressions
+//                        .stringTemplate("function('lower', {0})", member.username)))
+                .where(member.username.eq(member.username.lower()))
+                .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
 }
